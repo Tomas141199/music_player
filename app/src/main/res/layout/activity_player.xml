@@ -86,6 +86,7 @@
             android:layout_marginEnd="32dp"
             android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:singleLine="true"
             android:text="This is song name"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -101,6 +102,7 @@
             android:layout_marginEnd="40dp"
             android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:singleLine="true"
             android:text="This is song artist"
             android:textColor="@color/gray_50"
             android:textSize="18sp" />
@@ -194,8 +196,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:progressTint="@color/purple"
-            android:thumbTint="@color/purple_700"
-            />
+            android:thumbTint="@color/purple_700" />
 
         <TextView
             android:id="@+id/durationPlayed"

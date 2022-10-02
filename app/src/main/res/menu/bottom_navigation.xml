@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/songsFragment"
         android:icon="@drawable/music_note"
-        android:title="Canciones"
+        android:title="@string/canciones"
         />
     <item android:id="@+id/albumsFragment"
         android:icon="@drawable/album"
-        android:title="Álbumes"
+        android:title="@string/albumes"
         />
     <item android:id="@+id/artistFragment"
         android:icon="@drawable/artist"
-        android:title="Artistas"
+        android:title="@string/artistas"
         />
 
 </menu>

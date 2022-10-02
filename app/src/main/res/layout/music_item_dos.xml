@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/audio_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/ripple_effect_item_music"
+    android:clickable="true"
+    android:elevation="0dp"
+    android:focusable="true">
+
+
+    <TextView
+        android:id="@+id/nCancion"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="0dp"
+        android:text="@string/numero"
+        android:gravity="left"
+        android:paddingHorizontal="5dp"
+        android:textColor="@color/gray_50"
+        android:textSize="14sp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contenedorCancion"
+        android:layout_toEndOf="@id/nCancion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="@color/dark_bg"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/music_img"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_toEndOf="@id/nCancion"
+            android:src="@drawable/ic_record_vinyl_solid"
+            android:scaleType="fitXY" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/music_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_toEndOf="@+id/contenedorCancion"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="1"
+        android:scrollHorizontally="true"
+        android:text="@string/tituloCancion"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/music_artista_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/music_file_name"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_toEndOf="@+id/contenedorCancion"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/artista"
+        android:textColor="@color/gray_50"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/menuMore"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/more" />
+</RelativeLayout>

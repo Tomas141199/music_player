@@ -2,4 +2,28 @@
     <string name="app_name">music_player</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="artistaDesconocido">Artista desconocido</string>
+    <string name="sinFecha">Fecha no disponible</string>
+
+    <string name="canciones">Canciones</string>
+    <string name="albumes">Álbumes</string>
+    <string name="artistas">Artistas</string>
+    <string name="numero">#</string>
+
+    <string name="album">Álbum</string>
+    <string name="artista">Artista</string>
+    <string name="agno">Año</string>
+    <string name="tituloCancion">Titulo canción</string>
+
+    <string name="opcFoto">Agregar imagen</string>
+    <string name="subirImagen">Subir imagen</string>
+    <string name="guardarImagen">Guardar imagen</string>
+    <string name="editarDatos">Editar canción</string>
+    <string name="irAlbum">Ir al álbum</string>
+    <string name="irArtista">Ir al artista</string>
+    <string name="favorita">Agregar a favoritos</string>
+    <string name="eliminar">Eliminar canción</string>
+    <string name="actualizarImagen">Actualizar imagén</string>
+
+
 </resources>

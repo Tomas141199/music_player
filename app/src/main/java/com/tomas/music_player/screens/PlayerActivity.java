@@ -3,16 +3,14 @@ package com.tomas.music_player.screens;
 import static com.tomas.music_player.MainActivity.musicFiles;
 import static com.tomas.music_player.MainActivity.repeatBoolean;
 import static com.tomas.music_player.MainActivity.suffleBoolean;
+import static com.tomas.music_player.adapters.AlbumDetailsAdapter.albumFiles;
+import static com.tomas.music_player.adapters.ArtistDetailsAdapter.artistDetails;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.palette.graphics.Palette;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -367,7 +365,15 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     private void getIntenMethod() {
         position = getIntent().getIntExtra("position", -1);
-        listsong = musicFiles;
+        String sender=getIntent().getStringExtra("sender");
+        if(sender!=null){
+            if(sender.equals("albumDetails"))
+                listsong=albumFiles;
+            else
+                listsong=artistDetails;
+        }else{
+            listsong = musicFiles;
+        }
 
         if (listsong != null) {
             playPauseBtn.setImageResource(R.drawable.pause);
