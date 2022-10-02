@@ -33,7 +33,7 @@ public class ArtistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_artists, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-
+        //Un nuevo comentario
         Log.i("asdkja",String.valueOf(artists.size()));
         if (!(artists.size() <1)) {
             artistAdapter = new ArtistAdapter(getContext(), artists,nombreArtistas);
