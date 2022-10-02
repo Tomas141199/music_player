@@ -7,6 +7,7 @@ public class MusicFiles {
     private String album;
     private String duration;
     private String id;
+    private String fecha;
 
     public MusicFiles(String path, String title, String artist, String album, String duration, String id) {
         this.path = path;
@@ -15,6 +16,14 @@ public class MusicFiles {
         this.album = album;
         this.duration = duration;
         this.id = id;
+    }
+
+    public void setFecha(String fecha){
+        this.fecha=fecha;
+    }
+
+    public String getFecha(){
+        return this.fecha;
     }
 
     public MusicFiles() {

@@ -18,9 +18,17 @@
         android:theme="@style/Theme.Music_player"
         tools:targetApi="31">
         <activity
+            android:name=".screens.CargarImagen"
+            android:exported="false" />
+        <activity
+            android:name=".screens.ArtistDetails"
+            android:exported="false" />
+        <activity
+            android:name=".screens.AlbumDetails"
+            android:exported="false" />
+        <activity
             android:name=".screens.PlayerActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

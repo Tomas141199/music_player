@@ -34,6 +34,42 @@
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/popup.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1655" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1655" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/album.xml" value="0.2115" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/artist.xml" value="0.134" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/bordes_contenedor.xml" value="0.148" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/gradient_bg.xml" value="0.134" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_angle_left_solid_1_.xml" value="0.1" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_heart_regular.xml" value="0.148" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_image_regular.xml" value="0.134" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_pen_solid.xml" value="0.148" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_record_vinyl_solid.xml" value="0.1" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_subir_imagen.xml" value="0.151" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_trash_solid.xml" value="0.139" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/ic_user_solid.xml" value="0.134" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/item_selected.xml" value="0.1965" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/round_corner.xml" value="0.1735" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/round_corner_dos.xml" value="0.1735" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/round_corner_tres.xml" value="0.151" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/song_details.xml" value="0.2115" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/activity_album_details.xml" value="0.25" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/activity_artist_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/activity_cargar_imagen.xml" value="0.22" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/activity_player.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/album_item.xml" value="0.19402985074626866" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/album_item_fijo.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/artist_item.xml" value="0.33" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/bottom_sheet.xml" value="0.1671875" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/bottom_sheet_cancion.xml" value="0.22" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/fragment_albums.xml" value="0.22" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/fragment_artists.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/fragment_opciones_adicionales.xml" value="0.25" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/fragment_songs.xml" value="0.1" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/imagen_sheet.xml" value="0.33" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/music_item_dos.xml" value="0.22" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/layout/music_items.xml" value="0.33" />
+        <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/menu/bottom_navigation.xml" value="0.10729166666666666" />
       </map>
     </option>
   </component>

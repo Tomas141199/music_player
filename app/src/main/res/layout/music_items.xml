@@ -27,21 +27,21 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_toStartOf="@id/menuMore"
         android:layout_toEndOf="@+id/music_img"
-        android:scrollHorizontally="true"
         android:ellipsize="end"
         android:maxLines="1"
+        android:scrollHorizontally="true"
         android:text="File name"
-        android:layout_toStartOf="@id/menuMore"
         android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/menuMore"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/more"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:src="@drawable/more" />
 </RelativeLayout>

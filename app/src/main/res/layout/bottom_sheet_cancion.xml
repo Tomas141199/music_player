@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_corner_dos"
+    >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/audio_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:focusable="true"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/contenedorCancion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@color/dark_primary"
+            app:cardCornerRadius="2dp">
+
+            <ImageView
+                android:id="@+id/music_img"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_toEndOf="@id/nCancion"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_record_vinyl_solid" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/music_file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toEndOf="@+id/contenedorCancion"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="1"
+            android:scrollHorizontally="true"
+            android:text="@string/tituloCancion"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/music_artista_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/music_file_name"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toEndOf="@+id/contenedorCancion"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/artista"
+            android:textColor="@color/gray_50"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@id/audio_item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@drawable/bordes_contenedor">
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/btnAddFavoritos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audio_item"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/btnIconoFavorito"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_heart_regular" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/btnIconoFavorito"
+            android:text="@string/favorita"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btnEditarDatos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAddFavoritos"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iconoEditar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_pen_solid" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/iconoEditar"
+            android:text="@string/editarDatos"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!--ELIMINAR DATOS-->
+    <RelativeLayout
+        android:id="@+id/btnEliminar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnEditarDatos"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iconoEliminar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_trash_solid" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/iconoEliminar"
+            android:text="@string/eliminar"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+
+
+    <!--IR AL ALBUM-->
+    <RelativeLayout
+        android:id="@+id/btnIrAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnEliminar"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iconoIrAlbum"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_record_vinyl_solid" />
+
+        <TextView
+            android:id="@+id/textoIrAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/iconoIrAlbum"
+            android:text="@string/irAlbum"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!--TERCERA OPCION-->
+    <RelativeLayout
+        android:id="@+id/btnIrArtista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnIrAlbum"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+
+        >
+
+        <ImageView
+            android:id="@+id/iconoIrArtista"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_user_solid" />
+
+        <TextView
+            android:id="@+id/textoIrArtista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/iconoIrArtista"
+            android:text="@string/irArtista"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
