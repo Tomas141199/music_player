@@ -21,10 +21,13 @@
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/skip_previous.xml" value="0.3355" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/song_details.xml" value="0.3345" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/suffle_off.xml" value="0.3355" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/activity_album_details.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/activity_main.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/activity_player.xml" value="0.3098958333333333" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/activity_player_activiy.xml" value="0.328125" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/album_item.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_albums.xml" value="0.32916666666666666" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_artists.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_first.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_second.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_songs.xml" value="0.2848731884057971" />
@@ -32,6 +35,7 @@
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/music_items.xml" value="0.2848731884057971" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/bottom_navigation.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/popup.xml" value="0.32916666666666666" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/search.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1655" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1655" />
         <entry key="..\:/Users/Gera/AndroidStudioProjects/music_player/app/src/main/res/drawable/album.xml" value="0.2115" />

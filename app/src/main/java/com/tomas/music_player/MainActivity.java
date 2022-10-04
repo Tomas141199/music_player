@@ -16,7 +16,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tomas.music_player.BaseDatos.BaseDatos;
@@ -28,13 +31,15 @@ import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.screens.ArtistDetails;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     SongsFragment songsFragment = new SongsFragment();
     AlbumsFragment albumsFragment = new AlbumsFragment();
     ArtistFragment artistFragment = new ArtistFragment();
 
+    Toolbar toolbar;
     private static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFiles> musicFiles;
     public static boolean suffleBoolean = false;
@@ -48,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Inicio");
+
         permission();
 
         BaseDatos bd=new BaseDatos(this);//Iniciamos la base de datos
@@ -169,13 +178,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item){
             switch (item.getItemId()){
                 case R.id.songsFragment:
+                    getSupportActionBar().setTitle("Inicio");
                     loadFragment(songsFragment);
                     return true;
                 case R.id.albumsFragment:
-                    System.out.println("Estamos en el albums fragment");
+                    getSupportActionBar().setTitle("Albumes");
                     loadFragment(albumsFragment);
                     return true;
                 case R.id.artistFragment:
+                    getSupportActionBar().setTitle("Artistas");
                     loadFragment(artistFragment);
                     return true;
             }
@@ -189,6 +200,30 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search,menu);
+        MenuItem menuItem = menu.findItem(R.id.Search_option);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String userInput = newText.toLowerCase();
+        ArrayList<MusicFiles> myFiles = new ArrayList<>();
+        for(MusicFiles song: musicFiles){
+            if(song.getTitle().toLowerCase().contains(userInput)){
+                myFiles.add(song);
+            }
+        }
+        SongsFragment.musicAdapter.updateList(myFiles);
+        return true;
+    }
 }

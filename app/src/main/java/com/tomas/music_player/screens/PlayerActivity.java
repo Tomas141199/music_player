@@ -4,6 +4,8 @@ import static com.tomas.music_player.MainActivity.musicFiles;
 import static com.tomas.music_player.MainActivity.repeatBoolean;
 import static com.tomas.music_player.MainActivity.suffleBoolean;
 import static com.tomas.music_player.adapters.AlbumDetailsAdapter.albumFiles;
+import static com.tomas.music_player.adapters.ArtistDetailsAdapter.artistDetails;
+import static com.tomas.music_player.adapters.MusicAdapter.mFile;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_NEXT;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_PLAY;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_PREVIOUS;
@@ -382,12 +384,14 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private void getIntenMethod() {
         position = getIntent().getIntExtra("position", -1);
         String sender=getIntent().getStringExtra("sender");
-        if(sender!=null && sender.equals("albumsDetails")){
-            listsong=albumFiles;
+        if(sender!=null){
+            if(sender.equals("albumDetails"))
+                listsong=albumFiles;
+            else
+                listsong=artistDetails;
         }else{
-            listsong = musicFiles;
+            listsong = mFile;
         }
-
         if(listsong != null){
             playPauseBtn.setImageResource(R.drawable.pause);
             uri = Uri.parse(listsong.get(position).getPath());
