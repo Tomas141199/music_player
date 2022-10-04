@@ -11,6 +11,7 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
+import com.tomas.music_player.interfaces.ActionPlaying;
 import com.tomas.music_player.models.MusicFiles;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MusicService extends Service implements  MediaPlayer.OnCompletionLi
     ArrayList<MusicFiles> musicFiles = new ArrayList<>();
     Uri uri;
     int position = -1;
+    ActionPlaying actionPlaying;
 
     @Override
     public void onCreate() {
@@ -110,7 +112,12 @@ public class MusicService extends Service implements  MediaPlayer.OnCompletionLi
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-
+        if(actionPlaying != null){
+            actionPlaying.nextBtnClicked();
+        }
+        createMediaPlayer(position);
+        mediaPlayer.start();
+        OnCompleted();
     }
 
 }
