@@ -478,12 +478,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     public void onServiceConnected(ComponentName componentName, IBinder service) {
         MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
         musicService = myBinder.getService();
-        Toast.makeText(this, "Service connected"+ service, Toast.LENGTH_SHORT).show();
+        musicService.setCallBack(this);
         seekBar.setMax(musicService.getDuration() / 1000);
         metaData(uri);
         song_name.setText(listsong.get(position).getTitle());
         artist_name.setText(listsong.get(position).getArtist());
-        musicService.OnCompleted();;
+        musicService.OnCompleted();
+
     }
 
     @Override

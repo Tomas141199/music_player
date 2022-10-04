@@ -34,6 +34,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     private Context mContext;
     private ArrayList<MusicFiles> mFile;
 
+
     public MusicAdapter(Context mContext, ArrayList<MusicFiles> mFile){
         this.mContext = mContext;
         this.mFile = mFile;
