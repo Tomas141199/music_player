@@ -20,7 +20,7 @@ public class SongsFragment extends Fragment {
 
 
     RecyclerView recyclerView;
-    MusicAdapter musicAdapter;
+    public static MusicAdapter musicAdapter;
 
     public SongsFragment() {
 

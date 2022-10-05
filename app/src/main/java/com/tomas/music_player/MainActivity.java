@@ -10,13 +10,17 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tomas.music_player.BaseDatos.BaseDatos;
@@ -28,19 +32,29 @@ import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.screens.ArtistDetails;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     SongsFragment songsFragment = new SongsFragment();
     AlbumsFragment albumsFragment = new AlbumsFragment();
     ArtistFragment artistFragment = new ArtistFragment();
 
+    Toolbar toolbar;
     private static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFiles> musicFiles;
     public static boolean suffleBoolean = false;
     public static boolean repeatBoolean = false;
     public static ArrayList<MusicFiles> albums=new ArrayList<>();
     public static ArrayList<MusicFiles> artists=new ArrayList<>();
+    public static final String MUSIC_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static boolean  SHOW_MINI_PLAYER = false;
+    public static String  PATH_TO_FRAG = null;
+    public static  String ARTIST_TO_FRAG = null;
+    public static  String SONG_NAME_TO_FRAG = null;
+    public static final String ARTIST_NAME = "ARTIST NAME";
+    public static final String SONG_NAME = "SONG NAME";
 
     public static ArrayList<String> nombreArtistas=new ArrayList<>();
 
@@ -48,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Inicio");
+
         permission();
 
         BaseDatos bd=new BaseDatos(this);//Iniciamos la base de datos
@@ -169,13 +187,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item){
             switch (item.getItemId()){
                 case R.id.songsFragment:
+                    getSupportActionBar().setTitle("Inicio");
                     loadFragment(songsFragment);
                     return true;
                 case R.id.albumsFragment:
-                    System.out.println("Estamos en el albums fragment");
+                    getSupportActionBar().setTitle("Albumes");
                     loadFragment(albumsFragment);
                     return true;
                 case R.id.artistFragment:
+                    getSupportActionBar().setTitle("Artistas");
                     loadFragment(artistFragment);
                     return true;
             }
@@ -189,6 +209,52 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search,menu);
+        MenuItem menuItem = menu.findItem(R.id.Search_option);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String userInput = newText.toLowerCase();
+        ArrayList<MusicFiles> myFiles = new ArrayList<>();
+        for(MusicFiles song: musicFiles){
+            if(song.getTitle().toLowerCase().contains(userInput)){
+                myFiles.add(song);
+            }
+        }
+        SongsFragment.musicAdapter.updateList(myFiles);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences preferences = getSharedPreferences(MUSIC_LAST_PLAYED, MODE_PRIVATE);
+        String path = preferences.getString(MUSIC_FILE, null);
+        String artist = preferences.getString(ARTIST_NAME, null);
+        String song_name = preferences.getString(SONG_NAME, null);
+        if(path != null){
+            SHOW_MINI_PLAYER = true;
+            PATH_TO_FRAG = path;
+            ARTIST_TO_FRAG = artist;
+            SONG_NAME_TO_FRAG = song_name;
+
+        }else {
+            SHOW_MINI_PLAYER = false;
+            PATH_TO_FRAG = null;
+            ARTIST_TO_FRAG = null;
+            SONG_NAME_TO_FRAG = null;
+        }
+    }
 }
