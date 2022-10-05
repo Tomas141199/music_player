@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -46,6 +47,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static boolean repeatBoolean = false;
     public static ArrayList<MusicFiles> albums=new ArrayList<>();
     public static ArrayList<MusicFiles> artists=new ArrayList<>();
+    public static final String MUSIC_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static boolean  SHOW_MINI_PLAYER = false;
+    public static String  PATH_TO_FRAG = null;
+    public static  String ARTIST_TO_FRAG = null;
+    public static  String SONG_NAME_TO_FRAG = null;
+    public static final String ARTIST_NAME = "ARTIST NAME";
+    public static final String SONG_NAME = "SONG NAME";
 
     public static ArrayList<String> nombreArtistas=new ArrayList<>();
 
@@ -225,5 +234,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         SongsFragment.musicAdapter.updateList(myFiles);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences preferences = getSharedPreferences(MUSIC_LAST_PLAYED, MODE_PRIVATE);
+        String path = preferences.getString(MUSIC_FILE, null);
+        String artist = preferences.getString(ARTIST_NAME, null);
+        String song_name = preferences.getString(SONG_NAME, null);
+        if(path != null){
+            SHOW_MINI_PLAYER = true;
+            PATH_TO_FRAG = path;
+            ARTIST_TO_FRAG = artist;
+            SONG_NAME_TO_FRAG = song_name;
+
+        }else {
+            SHOW_MINI_PLAYER = false;
+            PATH_TO_FRAG = null;
+            ARTIST_TO_FRAG = null;
+            SONG_NAME_TO_FRAG = null;
+        }
     }
 }

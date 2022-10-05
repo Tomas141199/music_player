@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1655" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/artist.xml" value="0.282" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/background_miniplayer.xml" value="0.3345" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/bordes_contenedor.xml" value="0.3355" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1655" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/ic_round_keyboard_backspace_24.xml" value="0.1655" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/item_selected.xml" value="0.282" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/ripple_effect_item_music.xml" value="0.3345" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/ripple_item_list.xml" value="0.3355" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/round_corner.xml" value="0.1645" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/rounded_bottom_nav.xml" value="0.3345" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/skip_next.xml" value="0.3355" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/skip_previous.xml" value="0.3355" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/drawable/song_details.xml" value="0.3345" />
@@ -29,9 +32,11 @@
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_albums.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_artists.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_first.xml" value="0.32916666666666666" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_now_playing_bottom.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_second.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_songs.xml" value="0.2848731884057971" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/fragment_third.xml" value="0.32916666666666666" />
+        <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/music_item_dos.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/layout/music_items.xml" value="0.2848731884057971" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/bottom_navigation.xml" value="0.32916666666666666" />
         <entry key="..\:/Movil/Java/music_player/app/src/main/res/menu/popup.xml" value="0.32916666666666666" />

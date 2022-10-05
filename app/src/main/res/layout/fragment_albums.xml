@@ -7,10 +7,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_below="@id/barraSuperior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="140dp" />
 
 </RelativeLayout>
