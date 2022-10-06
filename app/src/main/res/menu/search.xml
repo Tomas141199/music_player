@@ -5,6 +5,6 @@
     android:id="@+id/Search_option"
     android:icon="@drawable/search"
     app:showAsAction="ifRoom"
-    android:iconTint="@color/gray_50"
+    android:iconTint="@color/white"
     app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

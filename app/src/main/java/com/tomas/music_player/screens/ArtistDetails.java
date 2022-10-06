@@ -1,6 +1,15 @@
 package com.tomas.music_player.screens;
 
-import static com.tomas.music_player.MainActivity.musicFiles;
+
+import static com.tomas.music_player.MainActivity.actualizado;
+
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tomas.music_player.BaseDatos.BDImagenes;
@@ -8,15 +17,6 @@ import com.tomas.music_player.R;
 import com.tomas.music_player.adapters.ArtistDetailsAdapter;
 import com.tomas.music_player.models.Imagen;
 import com.tomas.music_player.models.MusicFiles;
-
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ArtistDetails extends AppCompatActivity {
         //String nombreBusqueda=artistaNombre.replace(" ","");
         //nombreBusqueda.toLowerCase();
         Imagen c=null;
-         c=bd.buscarImagen(artistaNombre.toLowerCase(Locale.ROOT).replace(" ",""));
+        c=bd.buscarImagen(artistaNombre.toLowerCase(Locale.ROOT).replace(" ",""));
 
         if(c==null) {
             System.out.println("Imagen no conseguida");
@@ -66,18 +66,23 @@ public class ArtistDetails extends AppCompatActivity {
             Glide.with(this).asBitmap().load(c.getRuta()).into(imageView);
         }
 
+        findViewById(R.id.btnVolver).setOnClickListener((v)->{
+            finish();
+        });
+
+
         int j=0;
         String aux;
-        for(int i=0; i<musicFiles.size();i++){
+        for(int i=0; i<actualizado.size();i++){
 
-            aux=musicFiles.get(i).getArtist();
+            aux=actualizado.get(i).getArtist();
             aux=aux.replace(";","");
             aux=aux.replace(" ","");
             aux=aux.toLowerCase();
 
             System.out.println(aux+":"+artistaNombre.replace("\\s","").toLowerCase());
             if(aux.contains(artistaNombre.replace(" ","").toLowerCase())){
-                artistSong.add(j,musicFiles.get(i));
+                artistSong.add(j,actualizado.get(i));
                 j++;
             }
         }
@@ -88,10 +93,14 @@ public class ArtistDetails extends AppCompatActivity {
         super.onResume();
         if(!(artistSong.size()<1)){
 
-            artistDetailsAdapter=new ArtistDetailsAdapter(this,artistSong);
+            artistDetailsAdapter=new ArtistDetailsAdapter(ArtistDetails.this,artistSong,this.artistaNombre);
             recyclerView.setAdapter(artistDetailsAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         }
+    }
+
+    public void actualizar(){
+        onResume();
     }
 
     public byte[] getBytes(InputStream inputStream) throws IOException, IOException {
@@ -104,6 +113,10 @@ public class ArtistDetails extends AppCompatActivity {
             byteBuffer.write(buffer, 0, len);
         }
         return byteBuffer.toByteArray();
+    }
+
+    public void cerrar(){
+        finish();
     }
 
 }

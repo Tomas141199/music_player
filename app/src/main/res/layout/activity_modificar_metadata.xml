@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_primary"
+    tools:context=".screens.ModificarMetadata"
+    >
+
+    <RelativeLayout
+        android:id="@+id/barraSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingHorizontal="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <RelativeLayout
+            android:id="@+id/btnVolver"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/boton_circular_seleccionado"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:src="@drawable/ic_angle_left_solid_1_" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tituloSeccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/btnVolver"
+            android:gravity="left"
+            android:text="@string/editarDatos"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnGuardarCambios"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/botones_fondo"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:text="@string/guardar"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@id/contenedorImagen"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/barraSuperior"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/dark_bg">
+
+        <ImageView
+            android:id="@+id/imagenCargada"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/subirImagen"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/contenedorImagen"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/tituloCancion"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/contenedorImagen"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/boton_no_seleccionado"
+            android:backgroundTint="@color/gray_50"
+            android:drawableLeft="@drawable/music_text_view"
+            android:hint="@string/tituloCancion"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_50"
+            android:textSize="16sp"
+            tools:ignore="NotSibling" />
+
+        <EditText
+            android:id="@+id/nombre_artista"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/tituloCancion"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/boton_no_seleccionado"
+            android:backgroundTint="@color/gray_50"
+            android:drawableLeft="@drawable/user_text_view"
+            android:hint="@string/nombreArtista"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_50"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/nombre_album"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/nombre_artista"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/boton_no_seleccionado"
+            android:backgroundTint="@color/gray_50"
+            android:drawableLeft="@drawable/vynil_text_view"
+            android:hint="@string/nombreAlbum"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_50"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/nombre_album"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/boton_no_seleccionado"
+            android:backgroundTint="@color/gray_50"
+            android:drawableStart="@drawable/calender_text_view"
+            android:ems="4"
+            android:hint="@string/fechaCancion"
+            android:inputType="number"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_50"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

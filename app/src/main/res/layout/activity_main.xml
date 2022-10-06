@@ -11,10 +11,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:titleTextColor="@color/white"
+        android:foregroundTint="@color/white"
         android:background="@drawable/round_corner"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        android:translationZ="1dp" />
+        android:translationZ="1dp"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,18 +33,17 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
 
         <FrameLayout
+            android:id="@+id/frag_bottom_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/frag_bottom_player"
-            >
+            android:layout_alignParentBottom="true">
+
             <fragment
+                android:name="com.tomas.music_player.fragments.NowPlayingFragmentBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:layout="@layout/fragment_now_playing_bottom"
-                android:name="com.tomas.music_player.fragments.NowPlayingFragmentBottom"
                 android:layout_marginBottom="60dp"
-                />
+                tools:layout="@layout/fragment_now_playing_bottom" />
 
         </FrameLayout>
 

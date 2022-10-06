@@ -25,5 +25,19 @@
     <string name="eliminar">Eliminar canción</string>
     <string name="actualizarImagen">Actualizar imagén</string>
 
+    <string name="editarCancion">Editar canción</string>
+    <string name="fechaCancion">aaaa</string>
+    <string name="guardar">Guardar</string>
+
+    <string name="nombreArtista">Nombre del artista</string>
+    <string name="nombreAlbum">Nombre del álbum</string>
+    <string name="playlist">Listas</string>
+    <string name="agregarPlaylist">Crear lista de reproducción</string>
+    <string name="favoritos">Canciones favoritas</string>
+    <string name="tituloPlaylist">Titulo de la lista</string>
+    <string name="listaNueva">Lista de reproducción nueva</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="crear">CREAR</string>
+
 
 </resources>

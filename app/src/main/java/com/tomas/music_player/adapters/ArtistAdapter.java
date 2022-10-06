@@ -1,5 +1,7 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.nombreArtistas;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaMetadataRetriever;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import com.bumptech.glide.Glide;
 import com.tomas.music_player.BaseDatos.BDImagenes;
 import com.tomas.music_player.R;
 import com.tomas.music_player.models.Imagen;
-import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.screens.ArtistDetails;
 import com.tomas.music_player.screens.CargarImagen;
 
@@ -35,27 +35,14 @@ import java.util.Locale;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> {
 
     private Context mContext;
-    private ArrayList<MusicFiles> artistFiles;
-    private ArrayList<String> nombres=new ArrayList<>();
-    private ArrayList<String> nombresArtist=new ArrayList<>();
-
     private ArrayList<Imagen> imagenes;
     View view;
     BDImagenes bd;
     Imagen imagen=null;
-    public ArtistAdapter(Context mContext, ArrayList<MusicFiles> artistFiles, ArrayList<String> nombresArtistas){
+    public ArtistAdapter(Context mContext){
         this.mContext=mContext;
-        this.nombresArtist=nombresArtistas;
-        nombres.clear();
         bd=new BDImagenes(mContext);
-        this.artistFiles=artistFiles;
-
         imagenes=bd.mostrarImagenes();
-
-        for(int i=0; i< imagenes.size(); i++){
-            System.out.println("Insertado en el arreglo:"+imagenes.get(i).getNombre());
-            nombres.add(imagenes.get(i).getNombre());
-        }
     }
 
     @NonNull
@@ -69,18 +56,17 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int position) {
 
-
-        if(nombresArtist.get(position).equals("<unknown>"))
+        if(nombreArtistas.get(position).equals("<unknown>"))
             holder.artista_nombre.setText(R.string.artistaDesconocido);
         else
-            holder.artista_nombre.setText(nombresArtist.get(position));
+            holder.artista_nombre.setText(nombreArtistas.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, ArtistDetails.class);
-                System.out.println(nombresArtist.get(position));
-                intent.putExtra("artistNombre",nombresArtist.get(position));
+                System.out.println(nombreArtistas.get(position));
+                intent.putExtra("artistNombre",nombreArtistas.get(position));
                 try{
                     mContext.startActivity(intent);
                 }catch (Exception e){
@@ -90,10 +76,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
         });
 
         /*-Buscamos la imagen del artista--*/
-        imagen=bd.buscarImagen(nombresArtist.get(position).toLowerCase(Locale.ROOT).replace(" ",""));
+        imagen=bd.buscarImagen(nombreArtistas.get(position).toLowerCase(Locale.ROOT).replace(" ",""));
         if(imagen==null) {
-        Log.i("Estado busqueda imagen","Imagen no encontrada");
-        Glide.with(mContext).asBitmap().load(R.drawable.ic_user_solid).into(holder.icono_artista);
+            Log.i("Estado busqueda imagen","Imagen no encontrada");
+            Glide.with(mContext).asBitmap().load(R.drawable.ic_user_solid).into(holder.icono_artista);
         } else{
             Log.i("Estado busqueda imagen","Imagen encontrada");
             Log.i("Estado busqueda imagen id:", String.valueOf(imagen.getId()));
@@ -105,7 +91,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
             @Override
             public void onClick(View view) {
                 /*-Buscamos la imagen del artista--*/
-                imagen=bd.buscarImagen(nombresArtist.get(position).toLowerCase(Locale.ROOT).replace(" ",""));
+                imagen=bd.buscarImagen(nombreArtistas.get(position).toLowerCase(Locale.ROOT).replace(" ",""));
                 if(imagen==null) {
                     Log.i("Estado busqueda imagen","Imagen no encontrada");
                     System.out.println("Imagen no conseguida");
@@ -116,7 +102,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
                 }
                 /*--------------------------------*/
 
-                String nombre=nombresArtist.get(position);
+                String nombre=nombreArtistas.get(position);
 
                 //Creamos un shared preferences para almacenar la informaciómn
                 SharedPreferences sp= mContext.getSharedPreferences("datosImagen",mContext.MODE_PRIVATE);
@@ -131,8 +117,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
                     System.out.println("Los datos no se han almacenado");
                 }
 
-                Log.i("Nombre artista",nombresArtist.get(position));
-                showDialog();
+                Log.i("Nombre artista",nombreArtistas.get(position));
+                showDialog(nombreArtistas.get(position));
             }
         });
 
@@ -140,7 +126,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
 
     @Override
     public int getItemCount() {
-        return nombresArtist.size();
+        return nombreArtistas.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -156,11 +142,21 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
 
     }
 
-    private void showDialog(){
+    private void showDialog(String nombre){
         final Dialog dialog=new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet_layout);
         LinearLayout layoutAgregarFoto=dialog.findViewById(R.id.layoutAgregarFoto);
+
+        ImageView im=dialog.findViewById(R.id.artist_img);
+        TextView nombreArtista=dialog.findViewById(R.id.artist_file_name);
+
+        nombreArtista.setText(nombre);
+        //Buscamos la imagen del artista
+        Imagen i= bd.buscarImagen(nombre.toLowerCase(Locale.ROOT).replace(" ",""));
+        if(i!=null){
+            Glide.with(mContext).asBitmap().load(i.getRuta()).into(im);
+        }
 
         layoutAgregarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,30 +164,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
             public void onClick(View v) {
 
                 Intent intent=new Intent(mContext, CargarImagen.class);
-
-                /*Verificamos si la imagen es nula, con la finalidad
-                * de establcer que se entrara a actualizar la imagen*/
-                /*if(imagen!=null){
-
-                    intent.putExtra("id",imagen.getId());
-                    intent.putExtra("nombreArtista",imagen.getNombre());
-                    intent.putExtra("tipo",imagen.getTipo());
-                    try{
-                        mContext.startActivity(intent);
-                    }catch (Exception e){
-                        System.out.println(e);
-                    }
-
-                }else{
-                    System.out.println("Imagen nula");
-                    intent.putExtra("nombreArtista",nombre);
-                    try{
-                        mContext.startActivity(intent);
-                    }catch (Exception e){
-                        System.out.println(e);
-                    }
-                }*/
-
                 //Cargamos el intent donde se creara la imagen
                 try{
                     mContext.startActivity(intent);
@@ -208,7 +180,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyHolder> 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations=R.style.dialoAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
-
 
     }
 }

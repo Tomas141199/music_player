@@ -4,14 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.tomas.music_player.models.BaseDatosInstancia;
 import com.tomas.music_player.models.Imagen;
-import com.tomas.music_player.screens.CargarImagen;
 
 import java.util.ArrayList;
 
@@ -45,7 +43,7 @@ public class BDImagenes extends BaseDatos{
             valores.put("ruta", ruta);
             valores.put("tipo", tipo);
 
-             id = db.insert(TABLE_IMAGENES, null, valores);
+            id = db.insert(TABLE_IMAGENES, null, valores);
         }catch (Exception e){
             e.toString();
         }
@@ -81,10 +79,11 @@ public class BDImagenes extends BaseDatos{
         Imagen imagen=null;
         Cursor cursor=null;
 
+        System.out.println("Imagen buscada");
 
         System.out.println(cadena);
         try {
-             cursor = db.rawQuery( "select * from "+TABLE_IMAGENES+" WHERE nombre = '"+cadena+"'", null );        }catch (Exception e){
+            cursor = db.rawQuery( "select * from "+TABLE_IMAGENES+" WHERE nombre = '"+cadena+"'", null ); }catch (Exception e){
             Log.i("Excepcion al buscar imagen", String.valueOf(e));
         }
         try {
@@ -114,18 +113,9 @@ public class BDImagenes extends BaseDatos{
         ContentValues valores = new ContentValues();
         valores.put("nombre", nombre);
         valores.put("ruta", imagen);
-        valores.put("tipo", 0);
-
-
+        valores.put("tipo", i);
 
         boolean estado=true;
-
-        System.out.println(valores.get("nombre"));
-        System.out.println(i);
-        System.out.println(valores.get("tipo"));
-        System.out.println(valores.get("ruta"));
-        System.out.println(valores.get("ruta"));
-
 
         int in=db.update(TABLE_IMAGENES,valores," nombre = '"+ nombre +"' ",null);
 

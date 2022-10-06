@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:background="@color/dark_bg"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/listaNueva"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/nombrePlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/titulo"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/boton_no_seleccionado"
+        android:backgroundTint="@color/gray_50"
+        android:hint="@string/tituloPlaylist"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray_50"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/nombrePlaylist"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/btnGuardar"
+        android:backgroundTint="@color/dark_bg"
+        android:text="@string/cancelar"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:id="@+id/btnGuardar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/nombrePlaylist"
+        android:background="@color/dark_bg"
+        >
+
+        <TextView
+            android:id="@+id/textCrear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/botones_fondo"
+            android:backgroundTint="@color/purple"
+            android:gravity="center"
+            android:text="@string/crear"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

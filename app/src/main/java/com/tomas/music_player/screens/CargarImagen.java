@@ -1,19 +1,7 @@
 package com.tomas.music_player.screens;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.bumptech.glide.Glide;
-import com.tomas.music_player.BaseDatos.BDImagenes;
-import com.tomas.music_player.R;
-import com.tomas.music_player.models.BaseDatosInstancia;
-import com.tomas.music_player.models.Imagen;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,16 +12,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.bumptech.glide.Glide;
+import com.tomas.music_player.BaseDatos.BDImagenes;
+import com.tomas.music_player.R;
+import com.tomas.music_player.models.Imagen;
+
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 public class CargarImagen extends AppCompatActivity {
 
-    ImageView imagen,btnVolver;
-    RelativeLayout btnCargarImagen,btnGuardarImagen;
+    ImageView imagen;
+    CardView btnCargarImagen;
+    RelativeLayout btnGuardarImagen,btnVolver;
     TextView titulo;
     String nombre="";
     BDImagenes bd;
@@ -92,6 +87,10 @@ public class CargarImagen extends AppCompatActivity {
         this.btnGuardarImagen.setOnClickListener((v)->{
             guardarImagen();
         });
+
+        this.btnVolver.setOnClickListener((v)->{
+            finish();
+        });
     }
 
     private void cargarImagen(){
@@ -124,6 +123,7 @@ public class CargarImagen extends AppCompatActivity {
 
         long r=-1;
         if(this.actualizar!=false){
+
             r=bd.actualizarImagen(this.idImagen,this.nombreArtista,imagenn);
         }else{
             System.out.println("Nombre artista:"+this.nombreArtista);
@@ -141,7 +141,6 @@ public class CargarImagen extends AppCompatActivity {
             Log.i("Estado inserción/Actualización","Imagen no guardada");
             Toast.makeText(CargarImagen.this,"Ha surgidon un problema.",Toast.LENGTH_SHORT);
         }
-
     }
 
     //Obtenemos los bytes de la imagen para almacenarla en la bd

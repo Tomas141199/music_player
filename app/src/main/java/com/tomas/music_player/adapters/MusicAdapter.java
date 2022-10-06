@@ -1,5 +1,7 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.actualizado;
+
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -22,22 +24,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.tomas.music_player.BaseDatos.BDImagenes;
 import com.tomas.music_player.R;
+import com.tomas.music_player.models.Imagen;
 import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.screens.PlayerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
 
     private Context mContext;
     public static ArrayList<MusicFiles> mFile;
-
+    BDImagenes bd_;
 
     public MusicAdapter(Context mContext, ArrayList<MusicFiles> mFile){
         this.mContext = mContext;
         this.mFile = mFile;
+        bd_=new BDImagenes(mContext);
     }
 
     @NonNull
@@ -50,11 +56,20 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.file_name.setText(mFile.get(position).getTitle());
-        byte [] image = getAlbumArt(mFile.get(position).getPath());
-        if(image != null){
-            Glide.with(mContext).asBitmap().load(image).into(holder.album_art);
-        }else {
-            Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(holder.album_art);
+
+        //Buscamos la imagen de la canción
+        //Cargamos la canción ya sea una modificada o la original
+        Imagen aux= bd_.buscarImagen(actualizado.get(position).getAlbum().replace(" ","").toLowerCase(Locale.ROOT));
+        if(aux!=null){
+            //Imagen encontrada
+            Glide.with(mContext).asBitmap().load(aux.getRuta()).into(holder.album_art);
+        }else{
+            byte[] image = getAlbumArt(actualizado.get(position).getPath());
+            if (image != null) {
+                Glide.with(mContext).asBitmap().load(image).into(holder.album_art);
+            } else {
+                Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(holder.album_art);
+            }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +119,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }else{
             Snackbar.make(view, "No se pudo eliminar", Snackbar.LENGTH_LONG).show();
         }
-
-
-
     }
 
     @Override

@@ -8,6 +8,7 @@ public class MusicFiles {
     private String duration;
     private String id;
     private String fecha;
+    private int favorito;
 
     public MusicFiles(String path, String title, String artist, String album, String duration, String id) {
         this.path = path;
@@ -16,6 +17,14 @@ public class MusicFiles {
         this.album = album;
         this.duration = duration;
         this.id = id;
+    }
+
+    public int getFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(int favorito) {
+        this.favorito = favorito;
     }
 
     public void setFecha(String fecha){

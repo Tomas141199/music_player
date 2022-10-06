@@ -1,17 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/round_corner_dos"
-    android:padding="10dp">
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/audio_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:focusable="true"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@drawable/boton_no_seleccionado">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/contenedorArtista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@color/dark_primary"
+            app:cardCornerRadius="2dp">
+
+            <ImageView
+                android:id="@+id/artist_img"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_toEndOf="@id/nCancion"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_user_solid" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/artist_file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toEndOf="@+id/contenedorArtista"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="1"
+            android:scrollHorizontally="true"
+            android:text="@string/artista"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bordes_contenedor"/>
+
 
     <LinearLayout
         android:id="@+id/layoutAgregarFoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="5dp"
         android:gravity="center_vertical"
+        android:background="@drawable/botones_selected_dos"
         >
 
         <ImageView
@@ -19,7 +81,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_image_regular"
-            android:padding="10dp"
+            android:padding="15dp"
 
             />
 
@@ -28,7 +90,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/opcFoto"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="@color/white"
             />
     </LinearLayout>

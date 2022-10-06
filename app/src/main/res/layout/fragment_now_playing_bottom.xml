@@ -21,15 +21,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                android:elevation="10dp">
+                android:elevation="10dp"
+                app:cardBackgroundColor="@color/dark_primary">
                 <ImageView
                     android:id="@+id/bottom_album_art"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_foreground" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/vynil_text_view" />
             </androidx.cardview.widget.CardView>
-
 
 
             <ImageView
@@ -59,41 +59,39 @@
                 app:fabSize="mini" />
 
             <TextView
+                android:id="@+id/song_name_miniPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/song_name_miniPlayer"
-                android:text="Song Name"
-                android:textColor="@color/white"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="15dp"
-                android:textStyle="bold"
-                android:layout_toEndOf="@+id/rounded_mini_image"
-                android:textSize="18dp"
-                android:maxLines="1"
-                android:layout_toStartOf="@+id/play_pause_miniPlayer"
                 android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/rounded_mini_image"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@+id/play_pause_miniPlayer"
                 android:layout_toLeftOf="@id/play_pause_miniPlayer"
-                />
+                android:layout_toEndOf="@+id/rounded_mini_image"
+                android:layout_toRightOf="@+id/rounded_mini_image"
+                android:maxLines="1"
+                android:text="@string/tituloCancion"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
 
             <TextView
+                android:id="@+id/song_artist_miniPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/song_artist_miniPlayer"
-                android:text="Song Artist"
-                android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@+id/rounded_mini_image"
-                android:textSize="16dp"
                 android:layout_below="@+id/song_name_miniPlayer"
-                android:maxLines="1"
-                android:layout_toStartOf="@+id/play_pause_miniPlayer"
+                android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/rounded_mini_image"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@+id/play_pause_miniPlayer"
                 android:layout_toLeftOf="@id/play_pause_miniPlayer"
-                />
+                android:layout_toEndOf="@+id/rounded_mini_image"
+                android:layout_toRightOf="@+id/rounded_mini_image"
+                android:maxLines="1"
+                android:text="@string/artista"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
 
 
 

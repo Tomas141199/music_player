@@ -1,6 +1,6 @@
 package com.tomas.music_player.fragments;
 
-import static com.tomas.music_player.MainActivity.musicFiles;
+import static com.tomas.music_player.MainActivity.actualizado;
 
 import android.os.Bundle;
 
@@ -18,7 +18,6 @@ import com.tomas.music_player.adapters.MusicAdapter;
 
 public class SongsFragment extends Fragment {
 
-
     RecyclerView recyclerView;
     public static MusicAdapter musicAdapter;
 
@@ -32,11 +31,12 @@ public class SongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        if (!((musicFiles.size()) <1)) {
-            musicAdapter = new MusicAdapter(getContext(), musicFiles);
+        if (!((actualizado.size()) <1)) {
+            musicAdapter = new MusicAdapter(getContext(), actualizado);
             recyclerView.setAdapter(musicAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         }
         return view;
     }
+
 }

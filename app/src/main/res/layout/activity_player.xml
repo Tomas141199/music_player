@@ -16,26 +16,25 @@
         android:layout_alignParentTop="true"
         android:paddingHorizontal="20dp">
 
-        <ImageView
-            android:id="@+id/back_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <RelativeLayout
+            android:id="@+id/btnVolver"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_round_keyboard_backspace_24" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/boton_circular_seleccionado"
+            >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/menu_btn"
-            android:layout_toEndOf="@+id/back_btn"
-            android:layout_toRightOf="@id/back_btn"
-            android:gravity="center"
-            android:text="Now Playing"
-            android:textColor="@color/gray_50"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:src="@drawable/ic_angle_left_solid_1_" />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/menu_btn"
@@ -43,24 +42,24 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/menu" />
+            android:src="@drawable/more" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/card"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_below="@+id/layout_top_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="50dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:elevation="10dp"
-            app:cardBackgroundColor="@color/dark_bg"
+            app:cardBackgroundColor="@color/dark_primary"
             app:cardCornerRadius="20dp">
 
             <ImageView
@@ -68,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_foreground" />
+                android:src="@drawable/vynil_text_view" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
@@ -76,7 +75,8 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/card"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        >
 
         <TextView
             android:id="@+id/song_name"

@@ -13,19 +13,26 @@
         android:layout_height="50dp"
         android:paddingHorizontal="10dp">
 
-        <ImageView
-            android:id="@+id/btnVolver"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:padding="10dp"
-            android:src="@drawable/ic_angle_left_solid_1_">
+        <RelativeLayout
+        android:id="@+id/btnVolver"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/boton_circular_seleccionado"
+        >
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:src="@drawable/ic_angle_left_solid_1_" />
 
+    </RelativeLayout>
 
-        </ImageView>
     </RelativeLayout>
 
     <RelativeLayout

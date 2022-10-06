@@ -1,5 +1,7 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.albums;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,28 +16,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.tomas.music_player.BaseDatos.BDImagenes;
 import com.tomas.music_player.R;
+import com.tomas.music_player.models.Imagen;
 import com.tomas.music_player.screens.AlbumDetails;
-import com.tomas.music_player.models.MusicFiles;
 
-import java.util.ArrayList;
+import java.util.Locale;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
 
     private Context mContext;
-    private ArrayList<MusicFiles> albumFiles;
     View view;
-
-    public AlbumAdapter(Context mContext, ArrayList<MusicFiles> albumFiles){
+    BDImagenes bd_;
+    public AlbumAdapter(Context mContext){
         this.mContext=mContext;
-        this.albumFiles=albumFiles;
+        bd_=new BDImagenes(mContext);
     }
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view= LayoutInflater.from(mContext).inflate(R.layout.album_item,parent,false);
-
         return new MyHolder(view);
     }
 
@@ -43,29 +44,39 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.album_titulo.setText(albumFiles.get(position).getAlbum());
+        holder.album_titulo.setText(albums.get(position).getAlbum());
 
-        if(albumFiles.get(position).getArtist().compareTo("<unknown>")==0){
+        if(albums.get(position).getArtist().compareTo("<unknown>")==0){
             holder.album_artista.setText(R.string.artistaDesconocido);
         }else{
-            holder.album_artista.setText(albumFiles.get(position).getArtist());
+            holder.album_artista.setText(albums.get(position).getArtist());
         }
 
 
-        byte [] image = getAlbumImagen(albumFiles.get(position).getPath());
-        System.out.println(image);
-        if(image != null){
-            Glide.with(mContext).asBitmap().load(image).into(holder.album_imagen);
-        }else {
-            Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(holder.album_imagen);
+        //Buscamos la imagen de la canción
+        //Cargamos la canción ya sea una modificada o la original
+        Imagen aux= bd_.buscarImagen(albums.get(position).getAlbum().replace(" ","").toLowerCase(Locale.ROOT));
+        if(aux!=null){
+            //Imagen encontrada
+            Glide.with(mContext).asBitmap().load(aux.getRuta()).into(holder.album_imagen);
+        }else{
+            byte [] image = getAlbumImagen(albums.get(position).getPath());
+            System.out.println(image);
+            if(image != null){
+                Glide.with(mContext).asBitmap().load(image).into(holder.album_imagen);
+            }else {
+                Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(holder.album_imagen);
+            }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, AlbumDetails.class);
-                System.out.println(albumFiles.get(position).getAlbum());
-                intent.putExtra("albumNombre",albumFiles.get(position).getAlbum());
+                System.out.println(albums.get(position).getAlbum());
+                intent.putExtra("albumNombre",albums.get(position).getAlbum());
+                intent.putExtra("posicionCancion",position);
+
                 try{
                     mContext.startActivity(intent);
                 }catch (Exception e){
@@ -73,12 +84,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
                 }
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return albumFiles.size();
+        return albums.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -96,10 +106,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
     }
 
     private byte[] getAlbumImagen(String uri){
-        MediaMetadataRetriever retriever=new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] imagen=retriever.getEmbeddedPicture();
-        retriever.release();
-        return imagen;
+        try{
+            MediaMetadataRetriever retriever=new MediaMetadataRetriever();
+            retriever.setDataSource(uri);
+            byte[] imagen=retriever.getEmbeddedPicture();
+            retriever.release();
+            return imagen;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return null;
     }
+
 }

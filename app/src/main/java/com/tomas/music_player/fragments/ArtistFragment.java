@@ -36,7 +36,7 @@ public class ArtistFragment extends Fragment {
         //Un nuevo comentario
         Log.i("asdkja",String.valueOf(artists.size()));
         if (!(artists.size() <1)) {
-            artistAdapter = new ArtistAdapter(getContext(), artists,nombreArtistas);
+            artistAdapter = new ArtistAdapter(getContext());
             recyclerView.setAdapter(artistAdapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         }

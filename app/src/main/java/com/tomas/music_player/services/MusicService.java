@@ -30,6 +30,7 @@ public class MusicService extends Service implements  MediaPlayer.OnCompletionLi
     public static final String MUSIC_FILE = "STORED_MUSIC";
     public static final String ARTIST_NAME = "ARTIST NAME";
     public static final String SONG_NAME = "SONG NAME";
+    public static final String ALBUM_NAME = "ALBUM NAME";
 
     @Override
     public void onCreate() {
@@ -89,7 +90,7 @@ public class MusicService extends Service implements  MediaPlayer.OnCompletionLi
         if(mediaPlayer != null){
             mediaPlayer.stop();
             mediaPlayer.release();
-            if(musicFiles != null){
+            if(listsong != null){
                 createMediaPlayer(position);
                 mediaPlayer.start();
             }
@@ -129,12 +130,13 @@ public class MusicService extends Service implements  MediaPlayer.OnCompletionLi
 
     public void createMediaPlayer(int positionInner){
         position = positionInner;
-        uri = Uri.parse(musicFiles.get(position).getPath());
+        uri = Uri.parse(listsong.get(position).getPath());
         SharedPreferences.Editor editor = getSharedPreferences(MUSIC_LAST_PLAYED, MODE_PRIVATE)
                 .edit();
         editor.putString(MUSIC_FILE, uri.toString());
-        editor.putString(ARTIST_NAME, musicFiles.get(position).getArtist());
-        editor.putString(SONG_NAME, musicFiles.get(position).getTitle());
+        editor.putString(ARTIST_NAME, listsong.get(position).getArtist());
+        editor.putString(SONG_NAME, listsong.get(position).getTitle());
+        editor.putString(ALBUM_NAME, listsong.get(position).getAlbum());
         editor.apply();
         mediaPlayer = MediaPlayer.create(getBaseContext(),uri);
     }

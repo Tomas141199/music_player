@@ -1,10 +1,11 @@
 package com.tomas.music_player.screens;
 
+import static com.tomas.music_player.MainActivity.actualizado;
 import static com.tomas.music_player.MainActivity.musicFiles;
 import static com.tomas.music_player.MainActivity.repeatBoolean;
 import static com.tomas.music_player.MainActivity.suffleBoolean;
 import static com.tomas.music_player.adapters.AlbumDetailsAdapter.albumFiles;
-import static com.tomas.music_player.adapters.ArtistDetailsAdapter.artistDetails;
+import static com.tomas.music_player.adapters.ArtistDetailsAdapter.cancionesArtista;
 import static com.tomas.music_player.adapters.MusicAdapter.mFile;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_NEXT;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_PLAY;
@@ -30,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -41,20 +43,24 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.tomas.music_player.BaseDatos.BDImagenes;
 import com.tomas.music_player.R;
 import com.tomas.music_player.interfaces.ActionPlaying;
+import com.tomas.music_player.models.Imagen;
 import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.services.MusicService;
 import com.tomas.music_player.services.NotificationReceiver;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 
 public class PlayerActivity extends AppCompatActivity implements ActionPlaying, ServiceConnection {
 
     TextView song_name, artist_name, durationPlayed, Duration_Total;
-    ImageView cover_art, nextBtn, prevBtn, backBtn, suffleBtn, repeatBtn;
+    ImageView cover_art, nextBtn, prevBtn, suffleBtn, repeatBtn;
+    RelativeLayout backBtn;
     FloatingActionButton playPauseBtn;
     SeekBar seekBar;
     int position = -1;
@@ -65,11 +71,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private Thread playThread, prevThread, nextThread;
     MusicService musicService;
     MediaSessionCompat mediaSessionCompat;
+    BDImagenes bd_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
         mediaSessionCompat = new MediaSessionCompat(getBaseContext(),"My Audio");
         initViews();
         getIntenMethod();
@@ -81,18 +89,11 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
                     musicService.seekTo(i * 1000);
                 }
             }
-
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-
 
         PlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -130,6 +131,10 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
                     repeatBtn.setImageResource(R.drawable.repeat_on);
                 }
             }
+        });
+
+        backBtn.setOnClickListener((v)->{
+            finish();
         });
 
     }
@@ -182,7 +187,12 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             musicService.createMediaPlayer(position);
             metaData(uri);
             song_name.setText(listsong.get(position).getTitle());
-            artist_name.setText(listsong.get(position).getArtist());
+
+            if(!listsong.get(position).getArtist().equals("<unknown>"))
+                artist_name.setText(listsong.get(position).getArtist());
+            else
+                artist_name.setText(R.string.artistaDesconocido);
+
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -211,7 +221,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             musicService.createMediaPlayer(position);
             metaData(uri);
             song_name.setText(listsong.get(position).getTitle());
-            artist_name.setText(listsong.get(position).getArtist());
+
+            //Verificamos si el artista existe
+            if(!listsong.get(position).getArtist().equals("<unknown>"))
+                artist_name.setText(listsong.get(position).getArtist());
+            else
+                artist_name.setText(R.string.artistaDesconocido);
+
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -260,7 +276,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             musicService.createMediaPlayer(position);
             metaData(uri);
             song_name.setText(listsong.get(position).getTitle());
-            artist_name.setText(listsong.get(position).getArtist());
+
+            //Obtenemos el nombre del artista
+            if(!listsong.get(position).getArtist().equals("<unknown>"))
+                artist_name.setText(listsong.get(position).getArtist());
+            else
+                artist_name.setText(R.string.artistaDesconocido);
+
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -288,7 +310,12 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             musicService.createMediaPlayer(position);
             metaData(uri);
             song_name.setText(listsong.get(position).getTitle());
-            artist_name.setText(listsong.get(position).getArtist());
+
+            //Obtenemos el nombre del artista
+            if(!listsong.get(position).getArtist().equals("<unknown>"))
+                artist_name.setText(listsong.get(position).getArtist());
+            else
+                artist_name.setText(R.string.artistaDesconocido);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -363,8 +390,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         }
     }
 
-
-
     private String formattedTime(int mCurrentPosition) {
         String totalOut = "";
         String totalNew = "";
@@ -388,9 +413,9 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             if(sender.equals("albumDetails"))
                 listsong=albumFiles;
             else
-                listsong=artistDetails;
+                listsong=cancionesArtista;
         }else{
-            listsong = mFile;
+            listsong = actualizado;
         }
         if(listsong != null){
             playPauseBtn.setImageResource(R.drawable.pause);
@@ -411,7 +436,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         cover_art = findViewById(R.id.cover_art);
         nextBtn = findViewById(R.id.next);
         prevBtn = findViewById(R.id.id_prev);
-        backBtn = findViewById(R.id.back_btn);
+        backBtn = findViewById(R.id.btnVolver);
         suffleBtn = findViewById(R.id.id_suffle_off);
         repeatBtn = findViewById(R.id.id_repeat_off);
         playPauseBtn = findViewById(R.id.play_pause);
@@ -424,15 +449,37 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         retriever.setDataSource(uri.toString());
         int durationTotal = Integer.parseInt(listsong.get(position).getDuration()) / 1000;
         Duration_Total.setText(formattedTime(durationTotal));
-        byte[] art = retriever.getEmbeddedPicture();
-        Bitmap bitmap;
-        if (art != null) {
-            //Glide.with(this).asBitmap().load(art).into(cover_art);
-            bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
-            ImageAnimation(this, cover_art, bitmap);
-        } else {
-            Glide.with(this).asBitmap().load(R.mipmap.ic_launcher).into(cover_art);
+
+        /*----------------------------------------------------*/
+        /*-----------Buscamos la imagen del artista-----------*/
+        /*----------------------------------------------------*/
+        System.out.println(listsong.get(position).getAlbum());
+        bd_=new BDImagenes(this);
+        Imagen imagen=bd_.buscarImagen(listsong.get(position).getAlbum().toLowerCase(Locale.ROOT).replace(" ",""));
+        if(imagen!=null) {
+            Log.i("Estado busqueda imagen","Imagen encontrada");
+            Log.i("Estado busqueda imagen id:", String.valueOf(imagen.getId()));
+            try {
+                Glide.with(this).asBitmap().load(imagen.getRuta()).into(cover_art);
+            }catch (Exception e){
+                Log.i("Error","Sección player activity:"+e);
+            }
+        } else{
+            byte[] art = retriever.getEmbeddedPicture();
+            Bitmap bitmap;
+            if (art != null) {
+                //Glide.with(this).asBitmap().load(art).into(cover_art);
+                bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
+                ImageAnimation(this, cover_art, bitmap);
+            } else {
+                try{
+                    Glide.with(this).asBitmap().load(R.drawable.vynil_text_view).into(cover_art);
+                }catch(Exception e){
+                    Log.i("kjhjk", String.valueOf(e));
+                }
+            }
         }
+        /*--------------------------------*/
     }
 
     public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap) {
@@ -444,39 +491,28 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             public void onAnimationStart(Animation animation) {
 
             }
-
             @Override
             public void onAnimationEnd(Animation animation) {
                 Glide.with(context).load(bitmap).into(imageView);
                 animIn.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
+                    public void onAnimationStart(Animation animation) {}
 
                     @Override
-                    public void onAnimationEnd(Animation animation) {
-
-                    }
+                    public void onAnimationEnd(Animation animation) {}
 
                     @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
+                    public void onAnimationRepeat(Animation animation) {}
                 });
 
                 imageView.startAnimation(animIn);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
+            public void onAnimationRepeat(Animation animation) {}
         });
         imageView.startAnimation(animOut);
     }
-
-
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder service) {
@@ -486,9 +522,12 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         seekBar.setMax(musicService.getDuration() / 1000);
         metaData(uri);
         song_name.setText(listsong.get(position).getTitle());
-        artist_name.setText(listsong.get(position).getArtist());
-        musicService.OnCompleted();
 
+        if(!listsong.get(position).getArtist().equals("<unknown>"))
+            artist_name.setText(listsong.get(position).getArtist());
+        else
+            artist_name.setText(R.string.artistaDesconocido);
+        musicService.OnCompleted();
     }
 
     @Override
@@ -509,23 +548,42 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         Intent nextIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_NEXT);
         PendingIntent nextPending = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        /*----------------------------------------------------*/
+        /*-----------Buscamos la imagen del album-----------*/
+        /*----------------------------------------------------*/
+        bd_=new BDImagenes(this);
         byte [] picture = null;
-        picture = getAlbumArt(musicFiles.get(position).getPath());
+        picture = getAlbumArt(listsong.get(position).getPath());
         Bitmap thumb = null;
+        Imagen imagen=bd_.buscarImagen(listsong.get(position).getAlbum().toLowerCase(Locale.ROOT).replace(" ",""));
+        if(imagen!=null) {
+            Log.i("Estado busqueda imagen id:", String.valueOf(imagen.getId()));
+            try {
+                thumb = BitmapFactory.decodeByteArray(imagen.getRuta(),0,imagen.getRuta().length);
+            }catch (Exception e){
+                Log.i("Error","Sección player activity:"+e);
+            }
+        } else{
 
-        if(picture != null){
-            thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
-        }else{
-            thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            picture = getAlbumArt(listsong.get(position).getPath());
+
+            if(picture != null){
+                thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+            }else{
+                thumb = BitmapFactory.decodeResource(getResources(), R.drawable.vynil_text_view);
+            }
         }
+        /*--------------------------------*/
+
+        System.out.println("Estamos en la sección de notificaciones");
 
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID_2)
                 .setSmallIcon(playPauseBtn)
                 .setLargeIcon(thumb)
-                .setContentTitle(musicFiles.get(position).getTitle())
-                .setContentText(musicFiles.get(position).getArtist())
+                .setContentTitle(listsong.get(position).getTitle())
+                .setContentText(listsong.get(position).getArtist())
                 .addAction(R.drawable.skip_previous, "Previous", prevPending)
-                .addAction(R.drawable.play,"Pause", pausePending)
+                .addAction(R.drawable.pause,"Pause", pausePending)
                 .addAction(R.drawable.skip_next, "Next", nextPending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
@@ -538,10 +596,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     private byte[] getAlbumArt (String uri){
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri.toString());
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
+        try {
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(uri.toString());
+            byte[] art = retriever.getEmbeddedPicture();
+            retriever.release();
+            return art;
+        }catch (Exception e){
+            System.out.println("Error"+e);
+        }
+
+        return null;
+
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,10 +24,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tomas.music_player.BaseDatos.BDCanciones;
 import com.tomas.music_player.BaseDatos.BaseDatos;
 import com.tomas.music_player.adapters.AlbumDetailsAdapter;
 import com.tomas.music_player.fragments.AlbumsFragment;
 import com.tomas.music_player.fragments.ArtistFragment;
+import com.tomas.music_player.fragments.ListasFragment;
 import com.tomas.music_player.fragments.SongsFragment;
 import com.tomas.music_player.models.MusicFiles;
 import com.tomas.music_player.screens.ArtistDetails;
@@ -36,27 +39,39 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    //Los fragmentos que se utilizan
     SongsFragment songsFragment = new SongsFragment();
     AlbumsFragment albumsFragment = new AlbumsFragment();
     ArtistFragment artistFragment = new ArtistFragment();
-
+    ListasFragment listasFragment = new ListasFragment();
     Toolbar toolbar;
     private static final int REQUEST_CODE = 1;
-    public static ArrayList<MusicFiles> musicFiles;
     public static boolean suffleBoolean = false;
     public static boolean repeatBoolean = false;
-    public static ArrayList<MusicFiles> albums=new ArrayList<>();
-    public static ArrayList<MusicFiles> artists=new ArrayList<>();
-    public static final String MUSIC_LAST_PLAYED = "LAST_PLAYED";
-    public static final String MUSIC_FILE = "STORED_MUSIC";
-    public static boolean  SHOW_MINI_PLAYER = false;
+
+    public static ArrayList<MusicFiles> musicFiles;
+    public static ArrayList<MusicFiles> albums;
+    public static ArrayList<MusicFiles> artists;
+    public static ArrayList<String> nombreArtistas;
+    public static ArrayList<MusicFiles> cancionesBD;
+    public static ArrayList<MusicFiles> actualizado;
+
+
     public static String  PATH_TO_FRAG = null;
     public static  String ARTIST_TO_FRAG = null;
     public static  String SONG_NAME_TO_FRAG = null;
-    public static final String ARTIST_NAME = "ARTIST NAME";
-    public static final String SONG_NAME = "SONG NAME";
+    public static  String ALBUM_NAME_TO_FRAG = null;
 
-    public static ArrayList<String> nombreArtistas=new ArrayList<>();
+    public static boolean  SHOW_MINI_PLAYER = false;
+    public static final String SONG_NAME = "SONG NAME";
+    public static final String ARTIST_NAME = "ARTIST NAME";
+    public static final String ALBUM_NAME = "ALBUM NAME";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static final String MUSIC_LAST_PLAYED = "LAST_PLAYED";
+
+    static BDCanciones bd;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +81,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Inicio");
 
+        this.bd=new BDCanciones(MainActivity.this);
+
+        musicFiles=new ArrayList<>();
+        albums=new ArrayList<>();
+        artists=new ArrayList<>();
+        nombreArtistas=new ArrayList<>();
+
         permission();
-
         BaseDatos bd=new BaseDatos(this);//Iniciamos la base de datos
-
         loadFragment(songsFragment);
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
 
     }
 
     //MusicPlayerMethods
     public static ArrayList<MusicFiles> getAllAudio(Context context) {
 
+        MusicFiles musicFiles=null;
+        albums.clear();
+        artists.clear();
+        nombreArtistas.clear();
+
+        //Contenedor de valores para la inserción
+        ContentValues valores = new ContentValues();
         ArrayList<String> duplicate=new ArrayList<>();
 
         ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
@@ -105,23 +131,49 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 String id = cursor.getString(5);
                 String fecha=cursor.getString(6);
 
-                MusicFiles musicFiles = new MusicFiles(path, title, artist, album, duration, id);
-                musicFiles.setFecha(fecha);
+                MusicFiles c=bd.buscarCancion(id);
+                if(c==null){
+                    valores.put("identificador",id);
+                    valores.put("titulo",title);
+                    valores.put("album",album);
+                    valores.put("artista",artist);
+                    valores.put("duracion",duration);
+                    valores.put("path",path);
+                    valores.put("fecha",fecha);
+                    valores.put("fecha",fecha);
+                    valores.put("favorito",0);
+                    //Si no existe la canción se va a insertar en la bd
+                    if(bd.insertarCancion(valores)>0){
+                        System.out.println("Canción insertada en la bd");
+                    }
+
+                    c=new MusicFiles(path, title, artist, album, duration, id);
+                    c.setFecha(fecha);
+
+                    musicFiles = new MusicFiles(path, title, artist, album, duration, id);
+                    musicFiles.setFecha(fecha);
+
+                }else{
+                    //Si existe entonces la canción ya esta insertada
+                    System.out.println("No la da");
+                    musicFiles=c;
+                }
+
+                System.out.println("Favorito estado:"+c.getFavorito());
+
                 tempAudioList.add(musicFiles);
-                Log.e("Path: "+ path, "Album: "+album);
 
-
-                if(!duplicate.contains(album)){
+                if(!duplicate.contains(musicFiles.getAlbum())){
                     albums.add(musicFiles);
-                    duplicate.add(album);
+                    duplicate.add(musicFiles.getAlbum());
                 }
 
                 //Se crea una arreglo para separar a los artistas que se encuentran registrados
-                if(artist.contains(";")){
+                if(musicFiles.getArtist().contains(";")){
                     System.out.println("Contienen ;");
                     String aux="";
-                    for (int i=0; i<artist.length();i++){
-                        if(artist.charAt(i)==';'){
+                    for (int i=0; i<musicFiles.getArtist().length();i++){
+                        if(musicFiles.getArtist().charAt(i)==';'){
                             System.out.println("res"+aux);
                             if(!duplicate.contains(aux)){
                                 artists.add(musicFiles);
@@ -133,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                             aux="";
 
                         }else{
-                            aux+=artist.charAt(i);
+                            aux+=musicFiles.getArtist().charAt(i);
 
                         }
 
@@ -146,17 +198,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     aux="";
                 }else{
                     System.out.println("No contienen");
-                    if(!duplicate.contains(artist)){
+                    if(!duplicate.contains(musicFiles.getArtist())){
                         artists.add(musicFiles);
-                        duplicate.add(artist);
+                        duplicate.add(musicFiles.getArtist());
 
-                        nombreArtistas.add(artist);
+                        nombreArtistas.add(musicFiles.getArtist());
                     }
                 }
             }
             cursor.close();
         }
         //-----------------------------------------------------
+        actualizado=tempAudioList;
+
         return tempAudioList;
     }
 
@@ -198,6 +252,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     getSupportActionBar().setTitle("Artistas");
                     loadFragment(artistFragment);
                     return true;
+                case R.id.playlistFragment:
+                    getSupportActionBar().setTitle("Listas");
+                    loadFragment(listasFragment);
+                    return true;
             }
             return false;
         }
@@ -209,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         transaction.commit();
     }
 
+    //----------------------------------METODOS NUEVOS
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search,menu);
@@ -244,17 +303,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String path = preferences.getString(MUSIC_FILE, null);
         String artist = preferences.getString(ARTIST_NAME, null);
         String song_name = preferences.getString(SONG_NAME, null);
+        String album_name = preferences.getString(ALBUM_NAME, null);
+
+        System.out.println("PAHT;"+ path);
         if(path != null){
             SHOW_MINI_PLAYER = true;
             PATH_TO_FRAG = path;
             ARTIST_TO_FRAG = artist;
             SONG_NAME_TO_FRAG = song_name;
-
+            ALBUM_NAME_TO_FRAG = album_name;
         }else {
-            SHOW_MINI_PLAYER = false;
+            SHOW_MINI_PLAYER = true;
             PATH_TO_FRAG = null;
-            ARTIST_TO_FRAG = null;
-            SONG_NAME_TO_FRAG = null;
+            ARTIST_TO_FRAG = artist;
+            SONG_NAME_TO_FRAG = song_name;
+            ALBUM_NAME_TO_FRAG = album_name;
         }
     }
 }
