@@ -1,26 +1,48 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.ALBUM_NAME_TO_FRAG;
+import static com.tomas.music_player.MainActivity.SONG_NAME_TO_FRAG;
+import static com.tomas.music_player.MainActivity.albums;
+import static com.tomas.music_player.MainActivity.musicFiles;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
+import com.tomas.music_player.BaseDatos.BDCanciones;
 import com.tomas.music_player.BaseDatos.BDImagenes;
 import com.tomas.music_player.R;
 import com.tomas.music_player.models.Imagen;
 import com.tomas.music_player.models.MusicFiles;
+import com.tomas.music_player.screens.ArtistDetails;
+import com.tomas.music_player.screens.ModificarMetadata;
 import com.tomas.music_player.screens.PlayerActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -73,6 +95,17 @@ public class ListaDetailsAdapter extends RecyclerView.Adapter<ListaDetailsAdapte
             }
         }
 
+        String titulo=playListSong.get(position).getTitle();
+        String album=playListSong.get(position).getAlbum();
+
+        if(album.equals(ALBUM_NAME_TO_FRAG)&&titulo.equals(SONG_NAME_TO_FRAG)){
+            holder.itemView.setBackgroundColor(Color.rgb(255,255,255));
+            holder.itemView.getBackground().setAlpha(50);
+        }else{
+            holder.itemView.setBackgroundColor(Color.rgb(250,12,255));
+            holder.itemView.getBackground().setAlpha(0);
+        }
+
         if(playListSong.get(position).getArtist().compareTo("<unknown>")==0)
             holder.album_artista.setText(R.string.artistaDesconocido);
         else
@@ -86,9 +119,19 @@ public class ListaDetailsAdapter extends RecyclerView.Adapter<ListaDetailsAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra("sender","albumDetails");
+                intent.putExtra("sender","listaDetails");
                 intent.putExtra("position",position);
                 mContext.startActivity(intent);
+            }
+        });
+
+        holder.masOpciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Id", (String) holder.masOpciones.getContentDescription());
+                posicionCancion=Integer.valueOf((String) holder.masOpciones.getContentDescription());
+                showDialog(posicionCancion);
+
             }
         });
     }
@@ -125,5 +168,175 @@ public class ListaDetailsAdapter extends RecyclerView.Adapter<ListaDetailsAdapte
             System.out.println(e);
         }
         return null;
+    }
+
+    private void showDialog(int posicionCancion){
+        final Dialog dialog=new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_sheet_cancion);
+
+        //Dados que estamos en la sección del album esa opcion no se desplegara aquí
+        dialog.findViewById(R.id.iconoIrAlbum).setVisibility(View.GONE);
+        dialog.findViewById(R.id.textoIrAlbum).setVisibility(View.GONE);
+
+        BDCanciones bd=new BDCanciones(mContext);
+
+        MusicFiles cancion=playListSong.get(posicionCancion);
+
+        ImageView imagen=dialog.findViewById(R.id.music_img);
+        TextView titulo=dialog.findViewById(R.id.music_file_name);
+        TextView artista=dialog.findViewById(R.id.music_artista_name);
+        ImageView favorito=dialog.findViewById(R.id.btnIconoFavorito);
+        if(cancion.getArtist().compareTo("<unknown>")==0)
+            artista.setText(R.string.artistaDesconocido);
+        else
+            artista.setText(cancion.getArtist());
+
+        //Obtenemos los datos de la canción
+        Imagen i=bd_.buscarImagen(cancion.getAlbum().toLowerCase(Locale.ROOT).replace(" ",""));
+        if(i!=null){
+            Glide.with(mContext).asBitmap().load(i.getRuta()).into(imagen);
+        }else{
+            byte [] image = getAlbumImagen(cancion.getPath());
+            if(image != null){
+                Glide.with(mContext).asBitmap().load(image).into(imagen);
+            }else {
+                Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(imagen);
+            }
+        }
+
+        //Verificamos si la cancion es favorita
+        if(cancion.getFavorito()==1){
+            favorito.setImageResource(R.drawable.ic_heart_solid);
+        }
+
+        titulo.setText(cancion.getTitle());
+
+        dialog.findViewById(R.id.btnAddFavoritos).setOnClickListener((v)-> {
+            if (cancion.getFavorito() == 1) {
+                cancion.setFavorito(0);
+                favorito.setImageResource(R.drawable.ic_heart_regular);
+            } else {
+                favorito.setImageResource(R.drawable.ic_heart_solid);
+                cancion.setFavorito(1);
+            }
+
+            ContentValues valores = new ContentValues();
+            valores.put("identificador", cancion.getId());
+            valores.put("titulo", cancion.getTitle());
+            valores.put("album", cancion.getAlbum());
+            valores.put("artista", cancion.getArtist());
+            valores.put("duracion", cancion.getDuration());
+            valores.put("path", cancion.getPath());
+            valores.put("fecha", cancion.getFecha());
+            valores.put("favorito", cancion.getFavorito());
+
+            if (bd.actualizarCancion(valores, cancion.getId()) > 0) {
+                System.out.println("Estado de favorito actualizado");
+            }
+
+        });
+
+        //Agregamos los listeners a las funciones
+        dialog.findViewById(R.id.btnIrArtista).setOnClickListener((v)->{
+            Log.i("Navegar a ", "Ir a la sección del artista");
+            Intent intent=new Intent(mContext, ArtistDetails.class);
+            System.out.println(cancion.getArtist());
+            intent.putExtra("artistNombre",cancion.getArtist());
+            try{
+                mContext.startActivity(intent);
+
+            }catch (Exception e){
+                System.out.println(e);
+            }
+            dialog.dismiss();
+
+
+        });
+
+        dialog.findViewById(R.id.btnEditarDatos).setOnClickListener((v)->{
+            cancionEditarAlbum=playListSong.get(posicionCancion);//Obtenemos la canción
+
+            Intent intent=new Intent(mContext, ModificarMetadata.class);
+            intent.putExtra("modo","album");
+            //Cargamos el intent donde se creara la imagen
+            try{
+                mContext.startActivity(intent);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+            //dialogoEditarDatos(posicionCancion);
+
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.btnEliminar).setOnClickListener((v)->{
+            mostrarEliminar(posicionCancion);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.dialoAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void mostrarEliminar(int posicion){
+        final Dialog dialog=new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.eliminar_cancion);
+
+        RelativeLayout btnEliminar=dialog.findViewById(R.id.btnEliminar);
+        Button btnCancelar=dialog.findViewById(R.id.btnCancelar);
+
+        btnCancelar.setOnClickListener((v)->{
+            dialog.dismiss();
+        });
+
+        btnEliminar.setOnClickListener((v)->{
+            eliminarCancion(posicion);
+            dialog.dismiss();
+        });
+
+        btnCancelar.setOnClickListener((v)->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.dialoAnimation;
+        dialog.getWindow().setGravity(Gravity.CENTER);
+    }
+
+
+    private boolean eliminarCancion(int position){
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, Long.parseLong(playListSong.get(position).getId()));
+        MusicFiles c=playListSong.get(position);
+        File file = new File(playListSong.get(position).getPath());
+
+        boolean deleted = file.delete();
+        if(deleted){
+            mContext.getContentResolver().delete(contentUri, null, null);
+            musicFiles.remove(c);
+            playListSong.remove(c);
+
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, playListSong.size());
+            Snackbar.make(view, "Archivo Eliminado", Snackbar.LENGTH_LONG).show();
+
+            if(playListSong.isEmpty()){
+                albums.remove(posicionReferencia);
+                //MainActivity.getAllAudio(mContext);
+                ((Activity) mContext).finish();
+            }
+
+
+        }else{
+            Snackbar.make(view, "No se pudo eliminar", Snackbar.LENGTH_LONG).show();
+        }
+
+        return deleted;
     }
 }

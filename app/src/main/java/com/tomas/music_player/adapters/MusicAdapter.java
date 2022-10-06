@@ -1,11 +1,14 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.ALBUM_NAME_TO_FRAG;
+import static com.tomas.music_player.MainActivity.SONG_NAME_TO_FRAG;
 import static com.tomas.music_player.MainActivity.actualizado;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaMetadata;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -55,7 +58,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.file_name.setText(mFile.get(position).getTitle());
+
+        holder.file_name.setText(actualizado.get(position).getTitle());
 
         //Buscamos la imagen de la canción
         //Cargamos la canción ya sea una modificada o la original
@@ -72,9 +76,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             }
         }
 
+        String titulo=actualizado.get(position).getTitle();
+        String album=actualizado.get(position).getAlbum();
+
+        if(album.equals(ALBUM_NAME_TO_FRAG)&&titulo.equals(SONG_NAME_TO_FRAG)){
+            holder.itemView.setBackgroundColor(Color.rgb(255,255,255));
+            holder.itemView.getBackground().setAlpha(50);
+        }else{
+            holder.itemView.setBackgroundColor(Color.rgb(250,12,255));
+            holder.itemView.getBackground().setAlpha(0);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(mContext, PlayerActivity.class);
                 intent.putExtra("position", position);
                 mContext.startActivity(intent);

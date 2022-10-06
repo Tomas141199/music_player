@@ -1,5 +1,8 @@
 package com.tomas.music_player.adapters;
 
+import static com.tomas.music_player.MainActivity.ALBUM_NAME_TO_FRAG;
+import static com.tomas.music_player.MainActivity.SONG_NAME_TO_FRAG;
+import static com.tomas.music_player.MainActivity.actualizado;
 import static com.tomas.music_player.MainActivity.nombreArtistas;
 
 import android.annotation.SuppressLint;
@@ -22,7 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -96,6 +101,17 @@ public class ArtistDetailsAdapter extends RecyclerView.Adapter<ArtistDetailsAdap
             }else {
                 Glide.with(mContext).asBitmap().load(R.drawable.ic_record_vinyl_solid).into(holder.album_imagen);
             }
+        }
+
+        String titulo=cancionesArtista.get(position).getTitle();
+        String album=cancionesArtista.get(position).getAlbum();
+
+        if(album.equals(ALBUM_NAME_TO_FRAG)&&titulo.equals(SONG_NAME_TO_FRAG)){
+            holder.itemView.setBackgroundColor(Color.rgb(255,255,255));
+            holder.itemView.getBackground().setAlpha(50);
+        }else{
+            holder.itemView.setBackgroundColor(Color.rgb(250,12,255));
+            holder.itemView.getBackground().setAlpha(0);
         }
 
         if(cancionesArtista.get(position).getArtist().compareTo("<unknown>")==0)
@@ -271,20 +287,7 @@ public class ArtistDetailsAdapter extends RecyclerView.Adapter<ArtistDetailsAdap
         });
 
         dialog.findViewById(R.id.btnEliminar).setOnClickListener((v)->{
-            new AlertDialog.Builder(mContext).setTitle("Confirmar operación")
-                    .setMessage("¿Esta seguro de eliminar la canción?")
-                    .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Continuamos con la eliminación
-                            eliminarCancion(posicionCancion);
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    }).setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-
+            mostrarEliminar(posicionCancion);
             dialog.dismiss();
         });
 
@@ -293,6 +296,34 @@ public class ArtistDetailsAdapter extends RecyclerView.Adapter<ArtistDetailsAdap
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations=R.style.dialoAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void mostrarEliminar(int posicion){
+        final Dialog dialog=new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.eliminar_cancion);
+
+        RelativeLayout btnEliminar=dialog.findViewById(R.id.btnEliminar);
+        Button btnCancelar=dialog.findViewById(R.id.btnCancelar);
+
+        btnCancelar.setOnClickListener((v)->{
+            dialog.dismiss();
+        });
+
+        btnEliminar.setOnClickListener((v)->{
+            eliminarCancion(posicion);
+            dialog.dismiss();
+        });
+
+        btnCancelar.setOnClickListener((v)->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.dialoAnimation;
+        dialog.getWindow().setGravity(Gravity.CENTER);
     }
 
     private void eliminarCancion(int position){

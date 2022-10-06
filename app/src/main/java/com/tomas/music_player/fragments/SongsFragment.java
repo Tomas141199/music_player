@@ -38,5 +38,4 @@ public class SongsFragment extends Fragment {
         }
         return view;
     }
-
 }

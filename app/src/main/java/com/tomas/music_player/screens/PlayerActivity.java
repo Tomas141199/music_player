@@ -6,6 +6,7 @@ import static com.tomas.music_player.MainActivity.repeatBoolean;
 import static com.tomas.music_player.MainActivity.suffleBoolean;
 import static com.tomas.music_player.adapters.AlbumDetailsAdapter.albumFiles;
 import static com.tomas.music_player.adapters.ArtistDetailsAdapter.cancionesArtista;
+import static com.tomas.music_player.adapters.ListaDetailsAdapter.playListSong;
 import static com.tomas.music_player.adapters.MusicAdapter.mFile;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_NEXT;
 import static com.tomas.music_player.models.ApplicationClass.ACTION_PLAY;
@@ -410,10 +411,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         position = getIntent().getIntExtra("position", -1);
         String sender=getIntent().getStringExtra("sender");
         if(sender!=null){
-            if(sender.equals("albumDetails"))
-                listsong=albumFiles;
-            else
-                listsong=cancionesArtista;
+            if(sender.equals("albumDetails")) {
+                listsong = albumFiles;
+            }
+            else{
+                if(sender.equals("listaDetails")){
+                    listsong=playListSong;
+
+                }else{
+                    listsong=cancionesArtista;
+                }
+            }
         }else{
             listsong = actualizado;
         }
